@@ -37,10 +37,6 @@ jobs:
           command: |
             echo "A Thing"
       - run:
-           name: "Make a Build"
-           command: |
-             yarn
-      - run:
            name: "Get the version from package.json"
            command: | 
              ./scripts/extract-version.sh
