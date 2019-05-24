@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build-test:
     docker:
       - image: circleci/node:10.9.0
     steps:
@@ -13,18 +13,14 @@ jobs:
           name: Install Project Dependencies
           command: |
             yarn install --frozen-lockfile
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
-  yarn-test:
-    docker:
-      - image: circleci/node:10.9.0
-    steps:
       - run:
           name: Run the Test
           command: |
             yarn test
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
   reversion:
     docker:
       - image: cibuilds/github:0.12
@@ -38,10 +34,7 @@ workflows:
   version: 2
   build-test-version:
     jobs:
-      - build
-      - yarn-test:
-          requires:
-            - build
+      - build-test
       - reversion:
           requires:
-            - yarn-test
+            - build-test
