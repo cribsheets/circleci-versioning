@@ -3,6 +3,7 @@ jobs:
   build-test:
     docker:
       - image: circleci/node:10.9.0
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
@@ -24,6 +25,7 @@ jobs:
   reversion:
     docker:
       - image: cibuilds/github:0.12
+    working_directory: ~/repo
     steps:
       - run:
           name: Make the new version happen
