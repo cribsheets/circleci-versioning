@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.9.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "yarn.lock" }}
+            - v1-dependencies-
+      - run:
+          name: Install Project Dependencies
+          command: yarn install --frozen-lockfile
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+  test:
+    steps:
+      - run:
+        name: Run the Test
+        command: yarn test
+  reversion:
+    steps:
+      - run:
+        name: Make the new version happen
+        command: echo "something useful should happen here"
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
+      - reversion:
+        requires:
+          - test

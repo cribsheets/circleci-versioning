@@ -14,3 +14,12 @@ We want to make a miniscule node module that actually contained
 a test.  Google found
 [this](https://medium.freecodecamp.org/how-to-make-a-beautiful-tiny-npm-package-and-publish-it-2881d4307f78),
 which seems like it fits the bill.
+
+Maybe not THAT minimal, because we need to run a test. So, I'll add
+'jest'.
+
+Made an echo function, made an echo test, verified that echo test failed on not
+echo, AND created the .circleci/config.yaml file
+
+now to add to CircleCI and see if things happen
+
