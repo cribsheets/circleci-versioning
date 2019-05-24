@@ -37,9 +37,18 @@ jobs:
           command: |
             echo "A Thing"
       - run:
+           name: "Make a Build"
+           command: |
+             yarn
+      - run:
            name: "Get the version from package.json"
            command: | 
              ./scripts/extract-version.sh
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION=$(./scripts/extract-version.sh)
+            ghr -t ${GHTOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./src/
       - save_cache:
           paths:
             - node_modules
