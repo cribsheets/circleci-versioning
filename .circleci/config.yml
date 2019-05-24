@@ -11,30 +11,33 @@ jobs:
             - v1-dependencies-
       - run:
           name: Install Project Dependencies
-          command: yarn install --frozen-lockfile
+          command: |
+            yarn install --frozen-lockfile
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "yarn.lock" }}
-  test:
+  yarn-test:
     steps:
       - run:
-        name: Run the Test
-        command: yarn test
+          name: Run the Test
+          command: |
+            yarn test
   reversion:
     steps:
       - run:
-        name: Make the new version happen
-        command: echo "something useful should happen here"
+          name: Make the new version happen
+          command: |
+            echo "something useful should happen here"
 
 workflows:
   version: 2
   build-test-version:
     jobs:
       - build
-      - test:
-        requires:
-          - build
+      - yarn-test:
+          requires:
+            - build
       - reversion:
-        requires:
-          - test
+          requires:
+            - yarn-test
