@@ -26,8 +26,8 @@ jobs:
           command: |
             yarn test
   reversion:
-    docker:
-      - image cibuilds/github:0.12
+    docger:
+      - image: cibuilds/github:0.12
     steps:
       - run:
           name: Make the new version happen
