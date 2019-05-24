@@ -18,12 +18,16 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "yarn.lock" }}
   yarn-test:
+    docker:
+      - image: circleci/node:10.9.0
     steps:
       - run:
           name: Run the Test
           command: |
             yarn test
   reversion:
+    docker:
+      - image cibuilds/github:0.12
     steps:
       - run:
           name: Make the new version happen
