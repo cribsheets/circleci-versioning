@@ -2,11 +2,10 @@
 
 ## Goals
 
-1. Create an app with a single test, that builds a node module.
-2. Manual hosting / tagging / push
-3. Automate testing w/ Circle CI
-4. Automate tagging w/ Circle Workflow
-5. Automate release? ...somehow.
+1. Create a node module with a single test.
+2. Automate testing w/ Circle CI
+3. If testing is successful, push a tag of the package.json's "version"
+   attribute
 
 ## Process Notes
 
@@ -15,11 +14,22 @@ a test.  Google found
 [this](https://medium.freecodecamp.org/how-to-make-a-beautiful-tiny-npm-package-and-publish-it-2881d4307f78),
 which seems like it fits the bill.
 
-Maybe not THAT minimal, because we need to run a test. So, I'll add
-'jest'.
+We wanted a simple test, since 'jest' is reasonably simple, we'll use that. The
+function it's testing is 'echo', which just returns its argument.
 
-Made an echo function, made an echo test, verified that echo test failed on not
-echo, AND created the .circleci/config.yaml file
+Setting up the release tagging automation was guided by [this
+post](https://circleci.com/blog/publishing-to-github-releases-via-circleci/).
 
-now to add to CircleCI and see if things happen
+Extracting the version string is a simple bash script.
+
+## How to Use
+
+To get a new git tag (on GitHub as well), change the "version" attribute
+in package.json. That's basically it. CircleCI picks up the change and deploys a
+workflow if the tests pass.
+
+## Files of note:
+
+* `.circleci/config.yml` configures CI with the appropriate workflow
+* `scripts/extract-version.sh` yanks the version out of the `package.json` file
 
